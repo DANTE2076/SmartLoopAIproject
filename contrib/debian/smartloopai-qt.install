@@ -1,0 +1,6 @@
+usr/local/bin/smartloopai-qt usr/bin
+share/pixmaps/smartloopai32.xpm usr/share/pixmaps
+share/pixmaps/smartloopai16.xpm usr/share/pixmaps
+share/pixmaps/smartloopai128.png usr/share/pixmaps
+debian/smartloopai-qt.desktop usr/share/applications
+debian/smartloopai-qt.protocol usr/share/kde4/services/

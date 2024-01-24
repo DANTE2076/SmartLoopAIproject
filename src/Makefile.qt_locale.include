@@ -1,0 +1,22 @@
+QT_TS = \
+  qt/locale/smartloopai_ar.ts \
+  qt/locale/smartloopai_bg.ts \
+  qt/locale/smartloopai_de.ts \
+  qt/locale/smartloopai_en.ts \
+  qt/locale/smartloopai_es.ts \
+  qt/locale/smartloopai_fi.ts \
+  qt/locale/smartloopai_fr.ts \
+  qt/locale/smartloopai_it.ts \
+  qt/locale/smartloopai_ja.ts \
+  qt/locale/smartloopai_ko.ts \
+  qt/locale/smartloopai_nl.ts \
+  qt/locale/smartloopai_pl.ts \
+  qt/locale/smartloopai_pt.ts \
+  qt/locale/smartloopai_ro.ts \
+  qt/locale/smartloopai_ru.ts \
+  qt/locale/smartloopai_sk.ts \
+  qt/locale/smartloopai_th.ts \
+  qt/locale/smartloopai_tr.ts \
+  qt/locale/smartloopai_vi.ts \
+  qt/locale/smartloopai_zh_CN.ts \
+  qt/locale/smartloopai_zh_TW.ts

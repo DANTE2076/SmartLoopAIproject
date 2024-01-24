@@ -1,0 +1,11 @@
+[Protocol]
+exec=smartloopai-qt '%u'
+protocol=smartloopai
+input=none
+output=none
+helper=true
+listing=
+reading=false
+writing=false
+makedir=false
+deleting=false

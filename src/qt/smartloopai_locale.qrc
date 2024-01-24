@@ -1,0 +1,25 @@
+<!DOCTYPE RCC><RCC version="1.0">
+    <qresource prefix="/translations">
+        <file alias="ar">locale/smartloopai_ar.qm</file>
+        <file alias="bg">locale/smartloopai_bg.qm</file>
+        <file alias="de">locale/smartloopai_de.qm</file>
+        <file alias="en">locale/smartloopai_en.qm</file>
+        <file alias="es">locale/smartloopai_es.qm</file>
+        <file alias="fi">locale/smartloopai_fi.qm</file>
+        <file alias="fr">locale/smartloopai_fr.qm</file>
+        <file alias="it">locale/smartloopai_it.qm</file>
+        <file alias="ja">locale/smartloopai_ja.qm</file>
+        <file alias="ko">locale/smartloopai_ko.qm</file>
+        <file alias="nl">locale/smartloopai_nl.qm</file>
+        <file alias="pl">locale/smartloopai_pl.qm</file>
+        <file alias="pt">locale/smartloopai_pt.qm</file>
+        <file alias="ro">locale/smartloopai_ro.qm</file>
+        <file alias="ru">locale/smartloopai_ru.qm</file>
+        <file alias="sk">locale/smartloopai_sk.qm</file>
+        <file alias="th">locale/smartloopai_th.qm</file>
+        <file alias="tr">locale/smartloopai_tr.qm</file>
+        <file alias="vi">locale/smartloopai_vi.qm</file>
+        <file alias="zh_CN">locale/smartloopai_zh_CN.qm</file>
+        <file alias="zh_TW">locale/smartloopai_zh_TW.qm</file>
+    </qresource>
+</RCC>

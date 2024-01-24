@@ -1,0 +1,14 @@
+[Desktop Entry]
+Version=1.0
+Name=SmartLoopAI Core
+Comment=SmartLoopAI P2P Cryptocurrency
+Comment[de]=Verbinde mit dem SmartLoopAI peer-to-peer Netzwerk
+Comment[fr]=SmartLoopAI, monnaie virtuelle cryptographique pair à pair
+Comment[tr]=SmartLoopAI, eşten eşe kriptografik sanal para birimi
+Exec=smartloopai-qt %u
+Terminal=false
+Type=Application
+Icon=smartloopai128
+MimeType=x-scheme-handler/smartloopai;
+Categories=Office;Finance;P2P;Network;Qt;
+StartupWMClass=SmartLoopAI-qt

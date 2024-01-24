@@ -1,0 +1,42 @@
+FROM ubuntu:focal
+LABEL maintainer="SmartLoopAI Developers <dev@smartloopai.org>"
+LABEL description="Dockerised SmartLoopAI"
+
+ARG USER_ID
+ARG GROUP_ID
+ARG TAG
+
+ENV HOME /home/smartloopai
+
+# add user with specified (or default) user/group ids
+ENV USER_ID ${USER_ID:-1000}
+ENV GROUP_ID ${GROUP_ID:-1000}
+RUN groupadd -g ${GROUP_ID} smartloopai && \
+    useradd -u ${USER_ID} -g smartloopai -s /bin/bash -m -d /home/smartloopai smartloopai  && \
+    mkdir /home/smartloopai/.smartloopai && \
+    chown ${USER_ID}:${GROUP_ID} -R /home/smartloopai
+
+RUN apt-get update && \
+    apt-get -y install --no-install-recommends \
+    wget \
+    ca-certificates \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN mach=$(uname -m) \
+      && case $mach in aarch64) arch="aarch64-linux-gnu"; ;; x86_64) arch="x86_64-linux-gnu"; ;;  *) echo "ERROR: Machine type $mach not supported."; ;; esac \
+      && wget https://github.com/SmartLoopAIproject/releases/download/v${TAG}/smartloopai-${TAG}-$arch.tar.gz -P /tmp \
+      && tar -xvf /tmp/smartloopai-*.tar.gz -C /tmp/ \
+      && cp /tmp/smartloopai*/bin/*  /usr/local/bin \
+      && rm -rf /tmp/smartloopai* \
+      && chmod a+x /usr/local/bin/*
+
+USER smartloopai
+
+VOLUME ["/home/smartloopai"]
+
+COPY docker-entrypoint.sh /docker-entrypoint.sh
+ENTRYPOINT ["/docker-entrypoint.sh"]
+
+EXPOSE 15693 9999 25693 25694
+
+WORKDIR /home/smartloopai
