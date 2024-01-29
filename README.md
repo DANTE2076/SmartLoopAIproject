@@ -1,7 +1,5 @@
 # SmartLoopAI
 
-[![SmartLoopAI](https://www.smartloopai.org)](https://www.smartloopai.org)
-
 ## Blockchain name: SmartLoopAI
 
 ### Description
