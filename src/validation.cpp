@@ -1203,25 +1203,17 @@ CAmount GetBlockSubsidy(const CBlockIndex* const pindex, const Consensus::Params
 
 CAmount GetMasternodePayment(int nHeight, CAmount blockValue, bool fV20Active)
 {
-    CAmount ret = blockValue * 0.5;
-    const int nReallocActivationHeight = Params().GetConsensus().BRRHeight;
-
-
-    if (nHeight < nReallocActivationHeight) {
-        // Block Reward Realocation is not activated yet, nothing to do
-        return ret;
+    CAmount ret;
+    
+    // until block 4800 it continues to be fucked up as it is now
+    if (nHeight < 4800) {
+        ret = blockValue;
+    // aferwards all is well
+    } else {
+        ret = blockValue * 0.5;
     }
 
-    int nSuperblockCycle = Params().GetConsensus().nSuperblockCycle;
-    // Actual realocation starts in the cycle next to one activation happens in
-    int nReallocStart = nReallocActivationHeight - nReallocActivationHeight % nSuperblockCycle + nSuperblockCycle;
-
-    if (nHeight < nReallocStart) {
-        // Activated but we have to wait for the next cycle to start realocation, nothing to do
-        return ret;
-    }
-
-    return static_cast<CAmount>(blockValue * 1);
+    return ret;
 }
 
 CoinsViews::CoinsViews(
