@@ -1121,42 +1121,26 @@ NOTE:   unlike bitcoin we are using PREVIOUS block height here,
 */
 static std::pair<CAmount, CAmount> GetBlockSubsidyHelper(int nPrevBits, int nPrevHeight, const Consensus::Params& consensusParams, bool fV20Active)
 {
-    double dDiff;
-    CAmount nSubsidyBase = 5;
-    CAmount nSubsidy = nSubsidyBase * COIN;
-    CAmount nSuperblockPart{};
+    double dDiff = ConvertBitsToDouble(nPrevBits);
+    CAmount nSubsidyBase;
 
-    for (int i = consensusParams.nSubsidyHalvingInterval; i <= nPrevHeight; i += consensusParams.nSubsidyHalvingInterval) {
-        nSubsidy -= nSubsidy/14;
-    }
-
+    // until block 4800 block rewards will be wonky like now, dependant on difficulty
     if (nPrevHeight <= 4800) {
-        nSuperblockPart = nSubsidy / 5;
+        nSubsidyBase = (1111.0 / (pow((dDiff+1.0),2.0)));
+        if(nSubsidyBase > 450) nSubsidyBase = 450;
+    // after they are fixed to 450
     } else {
-        nSuperblockPart = 0;
+        nSubsidyBase = 450;
     }
 
-    return {nSubsidy - nSuperblockPart, nSuperblockPart};
-}
     CAmount nSubsidy = nSubsidyBase * COIN;
 
-    // yearly decline of production by ~7.1% per year, projected ~18M coins max by year 2050+.
+    // halvings
     for (int i = consensusParams.nSubsidyHalvingInterval; i <= nPrevHeight; i += consensusParams.nSubsidyHalvingInterval) {
         nSubsidy -= nSubsidy/14;
     }
 
-    if (nPrevHeight < consensusParams.nHighSubsidyBlocks) {
-        assert(isDevnet);
-        nSubsidy *= consensusParams.nHighSubsidyFactor;
-    }
-
-    CAmount nSuperblockPart{};
-    // Hard fork to reduce the block reward by 10 extra percent (allowing budget/superblocks)
-    if (nPrevHeight > consensusParams.nBudgetPaymentsStartBlock) {
-        // Once v20 is active, the treasury is 20% instead of 10%
-        nSuperblockPart = nSubsidy / (fV20Active ? 5 : 10);
-    }
-    return {nSubsidy - nSuperblockPart, nSuperblockPart};
+    return {nSubsidy, 0};
 }
 
 CAmount GetSuperblockSubsidyInner(int nPrevBits, int nPrevHeight, const Consensus::Params& consensusParams, bool fV20Active)
