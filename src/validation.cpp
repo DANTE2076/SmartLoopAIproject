@@ -1166,7 +1166,7 @@ CAmount GetMasternodePayment(int nHeight, CAmount blockValue, bool fV20Active)
 {
     CAmount ret;
     
-    // until block 4800 it continues to be fucked up as it is now
+    // until block 4900 it continues to be fucked up as it is now
     if (nHeight < 4900) {
         ret = blockValue;
     // aferwards all is well
