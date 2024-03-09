@@ -1124,8 +1124,8 @@ static std::pair<CAmount, CAmount> GetBlockSubsidyHelper(int nPrevBits, int nPre
     double dDiff = ConvertBitsToDouble(nPrevBits);
     CAmount nSubsidyBase;
 
-    // until block 4800 block rewards will be wonky like now, dependant on difficulty
-    if (nPrevHeight <= 4800) {
+    // until block 4900 block rewards will be wonky like now, dependant on difficulty
+    if (nPrevHeight <= 4900) {
         nSubsidyBase = (1111.0 / (pow((dDiff+1.0),2.0)));
         if(nSubsidyBase > 450) nSubsidyBase = 450;
     // after they are fixed to 450
