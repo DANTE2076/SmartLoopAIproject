@@ -1122,7 +1122,7 @@ NOTE:   unlike bitcoin we are using PREVIOUS block height here,
 static std::pair<CAmount, CAmount> GetBlockSubsidyHelper(int nPrevBits, int nPrevHeight, const Consensus::Params& consensusParams, bool fV20Active)
 {
     double dDiff;
-    int forkHeight 5000;
+    int forkHeight=5000;
     CAmount nSubsidyBase;
 
     if (nPrevHeight <= 4500 && Params().NetworkIDString() == CBaseChainParams::MAIN) {
