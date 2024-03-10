@@ -790,7 +790,7 @@ void SetupServerArgs(NodeContext& node)
 
 std::string LicenseInfo()
 {
-    const std::string URL_SOURCE_CODE = "<https://github.com/SmartLoopAIproject>";
+    const std::string URL_SOURCE_CODE = "<https://github.com/DANTE2076/SmartLoopAIproject>";
 
     return CopyrightHolders(_("Copyright (C)").translated, 2014, COPYRIGHT_YEAR) + "\n" +
            "\n" +
