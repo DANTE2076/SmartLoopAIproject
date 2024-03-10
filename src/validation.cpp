@@ -1124,8 +1124,8 @@ static std::pair<CAmount, CAmount> GetBlockSubsidyHelper(int nPrevBits, int nPre
     double dDiff = ConvertBitsToDouble(nPrevBits);
     CAmount nSubsidyBase;
 
-    // until block 4900 block rewards will be wonky like now, dependant on difficulty
-    if (nPrevHeight <= 4900) {
+    // until block 5000 block rewards will be wonky like now, dependant on difficulty
+    if (nPrevHeight <= 5000) {
         nSubsidyBase = (1111.0 / (pow((dDiff+1.0),2.0)));
         if(nSubsidyBase > 450) nSubsidyBase = 450;
     // after they are fixed to 450
@@ -1166,8 +1166,8 @@ CAmount GetMasternodePayment(int nHeight, CAmount blockValue, bool fV20Active)
 {
     CAmount ret;
     
-    // until block 4900 it continues to be fucked up as it is now
-    if (nHeight < 4900) {
+    // until block 5000 it continues to be fucked up as it is now
+    if (nHeight < 5000) {
         ret = blockValue;
     // aferwards all is well
     } else {
