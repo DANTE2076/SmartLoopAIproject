@@ -1119,60 +1119,65 @@ NOTE:   unlike bitcoin we are using PREVIOUS block height here,
         might be a good idea to change this to use prev bits
         but current height to avoid confusion.
 */
+
+
 static std::pair<CAmount, CAmount> GetBlockSubsidyHelper(int nPrevBits, int nPrevHeight, const Consensus::Params& consensusParams, bool fV20Active)
 {
-    // double dDiff;
-    CAmount nSubsidyBase = 500;
+    double dDiff;
+    CAmount nSubsidyBase;
 
-    // if (nPrevHeight <= 4500 && Params().NetworkIDString() == CBaseChainParams::MAIN) {
-    //     /* a bug which caused diff to not be correctly calculated */
-    //     dDiff = (double)0x0000ffff / (double)(nPrevBits & 0x00ffffff);
-    // } else {
-    //     dDiff = ConvertBitsToDouble(nPrevBits);
-    // }
+    if (nPrevHeight <= 4500 && Params().NetworkIDString() == CBaseChainParams::MAIN) {
+        /* a bug which caused diff to not be correctly calculated */
+        dDiff = (double)0x0000ffff / (double)(nPrevBits & 0x00ffffff);
+    } else {
+        dDiff = ConvertBitsToDouble(nPrevBits);
+    }
 
-    // const bool isDevnet = Params().NetworkIDString() == CBaseChainParams::DEVNET;
-    // const bool force_fixed_base_subsidy = fV20Active || (isDevnet && nPrevHeight >= consensusParams.nHighSubsidyBlocks);
-    // if (force_fixed_base_subsidy) {
+    const bool isDevnet = Params().NetworkIDString() == CBaseChainParams::DEVNET;
+    const bool force_fixed_base_subsidy = fV20Active || (isDevnet && nPrevHeight >= consensusParams.nHighSubsidyBlocks);
+    if (force_fixed_base_subsidy) {
         // Originally, nSubsidyBase calculations relied on difficulty. Once Platform is live,
         // it must be able to calculate platformReward. However, we don't want it to constantly
         // get blocks difficulty from the payment chain, so we set the nSubsidyBase to a fixed
         // value starting from V20 activation. Note, that it doesn't affect mainnet really
         // because blocks difficulty there is very high already.
         // Devnets get fixed nSubsidyBase starting from nHighSubsidyBlocks to better mimic mainnet.
-        // nSubsidyBase = 5;
-    // }
-    // } else if (nPrevHeight < 5465) {
-    //     // Early ages...
-    //     // 1111/((x+1)^2)
-    //     nSubsidyBase = (1111.0 / (pow((dDiff+1.0),2.0)));
-    //     if(nSubsidyBase > 500) nSubsidyBase = 500;
-    //     else if(nSubsidyBase < 1) nSubsidyBase = 1;
-    // } else if (nPrevHeight < 17000 || (dDiff <= 75 && nPrevHeight < 24000)) {
-    //     // CPU mining era
-    //     // 11111/(((x+51)/6)^2)
-    //     nSubsidyBase = (11111.0 / (pow((dDiff+51.0)/6.0,2.0)));
-    //     if(nSubsidyBase > 500) nSubsidyBase = 500;
-    //     else if(nSubsidyBase < 25) nSubsidyBase = 25;
-    // } else {
-    //     // GPU/ASIC mining era
-    //     // 2222222/(((x+2600)/9)^2)
-    //     nSubsidyBase = (2222222.0 / (pow((dDiff+2600.0)/9.0,2.0)));
-    //     if(nSubsidyBase > 25) nSubsidyBase = 25;
-    //     else if(nSubsidyBase < 5) nSubsidyBase = 5;
-    // }
-
-    CAmount nSubsidy = nSubsidyBase * COIN;
+        nSubsidyBase = 5;
+    } else if (nPrevHeight < 5465) {
+        // Early ages...
+        // 1111/((x+1)^2)
+        nSubsidyBase = (1111.0 / (pow((dDiff+1.0),2.0)));
+        if(nSubsidyBase > 500) nSubsidyBase = 500;
+        else if(nSubsidyBase < 1) nSubsidyBase = 1;
+    } else if (nPrevHeight < 17000 || (dDiff <= 75 && nPrevHeight < 24000)) {
+        // CPU mining era
+        // 11111/(((x+51)/6)^2)
+        nSubsidyBase = (11111.0 / (pow((dDiff+51.0)/6.0,2.0)));
+        if(nSubsidyBase > 500) nSubsidyBase = 500;
+        else if(nSubsidyBase < 25) nSubsidyBase = 25;
+    } else if (nPrevHeight < 5400) {
+        // GPU/ASIC mining era
+        // 2222222/(((x+2600)/9)^2)
+        nSubsidyBase = (2222222.0 / (pow((dDiff+2600.0)/9.0,2.0)));
+        if(nSubsidyBase > 25) nSubsidyBase = 25;
+        else if(nSubsidyBase < 5) nSubsidyBase = 5;
+    } else {
+        // New criteria starting from block 5400
+        // Define new criteria for block rewards starting from block 5400
+        nSubsidyBase = 450;
+        // Realizar otras operaciones necesarias para ajustar la recompensa base según sea necesario
+    }
+	CAmount nSubsidy = nSubsidyBase * COIN;
 
     // yearly decline of production by ~7.1% per year, projected ~18M coins max by year 2050+.
     for (int i = consensusParams.nSubsidyHalvingInterval; i <= nPrevHeight; i += consensusParams.nSubsidyHalvingInterval) {
         nSubsidy -= nSubsidy/14;
     }
 
-    // if (nPrevHeight < consensusParams.nHighSubsidyBlocks) {
-    //     assert(isDevnet);
-    //     nSubsidy *= consensusParams.nHighSubsidyFactor;
-    // }
+    if (nPrevHeight < consensusParams.nHighSubsidyBlocks) {
+        assert(isDevnet);
+        nSubsidy *= consensusParams.nHighSubsidyFactor;
+    }
 
     CAmount nSuperblockPart{};
     // Hard fork to reduce the block reward by 10 extra percent (allowing budget/superblocks)
@@ -1180,13 +1185,9 @@ static std::pair<CAmount, CAmount> GetBlockSubsidyHelper(int nPrevBits, int nPre
         // Once v20 is active, the treasury is 20% instead of 10%
         nSuperblockPart = nSubsidy / (fV20Active ? 5 : 10);
     }
-
-    if (nPrevHeight < 5400) {
-          return {nSubsidy - nSuperblockPart, nSuperblockPart};
-        } else {
-          return {nSubsidy, 0};
-        }
+    return {nSubsidy - nSuperblockPart, nSuperblockPart};
 }
+
 
 CAmount GetSuperblockSubsidyInner(int nPrevBits, int nPrevHeight, const Consensus::Params& consensusParams, bool fV20Active)
 {
@@ -1210,15 +1211,7 @@ CAmount GetBlockSubsidy(const CBlockIndex* const pindex, const Consensus::Params
 CAmount GetMasternodePayment(int nHeight, CAmount blockValue, bool fV20Active)
 {
     CAmount ret = blockValue * 0.5;
-
-    if (nHeight < 5400) {
-      return static_cast<CAmount>(blockValue * 1);
-    } else {
-      return ret;
-    }
-
     const int nReallocActivationHeight = Params().GetConsensus().BRRHeight;
-
 
     if (nHeight < nReallocActivationHeight) {
         // Block Reward Realocation is not activated yet, nothing to do
@@ -1226,12 +1219,16 @@ CAmount GetMasternodePayment(int nHeight, CAmount blockValue, bool fV20Active)
     }
 
     int nSuperblockCycle = Params().GetConsensus().nSuperblockCycle;
-    // Actual realocation starts in the cycle next to one activation happens in
     int nReallocStart = nReallocActivationHeight - nReallocActivationHeight % nSuperblockCycle + nSuperblockCycle;
 
     if (nHeight < nReallocStart) {
         // Activated but we have to wait for the next cycle to start realocation, nothing to do
         return ret;
+    }
+
+    // Apply fixed reward from block 5400 onwards
+    if (nHeight >= 5400) {
+        return blockValue / 2;
     }
 
     return static_cast<CAmount>(blockValue * 1);
