@@ -1143,7 +1143,7 @@ static std::pair<CAmount, CAmount> GetBlockSubsidyHelper(int nPrevBits, int nPre
         // because blocks difficulty there is very high already.
         // Devnets get fixed nSubsidyBase starting from nHighSubsidyBlocks to better mimic mainnet.
         nSubsidyBase = 5;
-    } else if (nPrevHeight < 5400 && !forced_fixed_base_subsidy) {
+    } else if (nPrevHeight < 5400 && !force_fixed_base_subsidy) {
         // Early ages...
         // 1111/((x+1)^2)
         nSubsidyBase = (1111.0 / (pow((dDiff+1.0),2.0)));
