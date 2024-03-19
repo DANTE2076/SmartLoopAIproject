@@ -1149,13 +1149,13 @@ static std::pair<CAmount, CAmount> GetBlockSubsidyHelper(int nPrevBits, int nPre
         nSubsidyBase = (1111.0 / (pow((dDiff+1.0),2.0)));
         if(nSubsidyBase > 500) nSubsidyBase = 500;
         else if(nSubsidyBase < 1) nSubsidyBase = 1;
-    } else if ((nPrevHeight < 17000 || (dDiff <= 75 && nPrevHeight < 24000)) && !forced_fixed_base_subsidy) {
+    } else if ((nPrevHeight < 17000 || (dDiff <= 75 && nPrevHeight < 24000)) && !force_fixed_base_subsidy) {
         // CPU mining era
         // 11111/(((x+51)/6)^2)
         nSubsidyBase = (11111.0 / (pow((dDiff+51.0)/6.0,2.0)));
         if(nSubsidyBase > 500) nSubsidyBase = 500;
         else if(nSubsidyBase < 25) nSubsidyBase = 25;
-    } else if (nPrevHeight < 5400 && !forced_fixed_base_subsidy) {
+    } else if (nPrevHeight < 5400 && !force_fixed_base_subsidy) {
         // GPU/ASIC mining era
         // 2222222/(((x+2600)/9)^2)
         nSubsidyBase = (2222222.0 / (pow((dDiff+2600.0)/9.0,2.0)));
