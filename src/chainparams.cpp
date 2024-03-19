@@ -194,8 +194,8 @@ public:
         consensus.V19Height = 1; 
         consensus.MinBIP9WarningHeight = 1 + 2; // V19 activation height + miner confirmation window
         consensus.powLimit = uint256S("00000fffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"); // ~uint256(0) >> 20
-        consensus.nPowTargetTimespan = 20 * 60;
-        consensus.nPowTargetSpacing =  2.5 * 60;
+        consensus.nPowTargetTimespan = 12 * 60;
+        consensus.nPowTargetSpacing =  6 * 60;
         consensus.fPowAllowMinDifficultyBlocks = false;
         consensus.fPowNoRetargeting = false;
         consensus.nPowKGWHeight = 1;
