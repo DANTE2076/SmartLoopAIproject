@@ -1135,7 +1135,7 @@ static std::pair<CAmount, CAmount> GetBlockSubsidyHelper(int nPrevBits, int nPre
 
     const bool isDevnet = Params().NetworkIDString() == CBaseChainParams::DEVNET;
     const bool force_fixed_base_subsidy = fV20Active || (isDevnet && nPrevHeight >= consensusParams.nHighSubsidyBlocks);
-    if (force_fixed_base_subsidy) {
+    if (force_fixed_base_subsidy && nPrevHeight < 5400) {
         // Originally, nSubsidyBase calculations relied on difficulty. Once Platform is live,
         // it must be able to calculate platformReward. However, we don't want it to constantly
         // get blocks difficulty from the payment chain, so we set the nSubsidyBase to a fixed
@@ -1143,19 +1143,19 @@ static std::pair<CAmount, CAmount> GetBlockSubsidyHelper(int nPrevBits, int nPre
         // because blocks difficulty there is very high already.
         // Devnets get fixed nSubsidyBase starting from nHighSubsidyBlocks to better mimic mainnet.
         nSubsidyBase = 5;
-    } else if (nPrevHeight < 5465) {
+    } else if (nPrevHeight < 5400 && !forced_fixed_base_subsidy) {
         // Early ages...
         // 1111/((x+1)^2)
         nSubsidyBase = (1111.0 / (pow((dDiff+1.0),2.0)));
         if(nSubsidyBase > 500) nSubsidyBase = 500;
         else if(nSubsidyBase < 1) nSubsidyBase = 1;
-    } else if (nPrevHeight < 17000 || (dDiff <= 75 && nPrevHeight < 24000)) {
+    } else if ((nPrevHeight < 17000 || (dDiff <= 75 && nPrevHeight < 24000)) && !forced_fixed_base_subsidy) {
         // CPU mining era
         // 11111/(((x+51)/6)^2)
         nSubsidyBase = (11111.0 / (pow((dDiff+51.0)/6.0,2.0)));
         if(nSubsidyBase > 500) nSubsidyBase = 500;
         else if(nSubsidyBase < 25) nSubsidyBase = 25;
-    } else if (nPrevHeight < 5400) {
+    } else if (nPrevHeight < 5400 && !forced_fixed_base_subsidy) {
         // GPU/ASIC mining era
         // 2222222/(((x+2600)/9)^2)
         nSubsidyBase = (2222222.0 / (pow((dDiff+2600.0)/9.0,2.0)));
@@ -1164,7 +1164,7 @@ static std::pair<CAmount, CAmount> GetBlockSubsidyHelper(int nPrevBits, int nPre
     } else {
         // New criteria starting from block 5400
         // Define new criteria for block rewards starting from block 5400
-        nSubsidyBase = 450;
+        nSubsidyBase = 220;
         // Realizar otras operaciones necesarias para ajustar la recompensa base según sea necesario
     }
 	CAmount nSubsidy = nSubsidyBase * COIN;
@@ -1227,7 +1227,7 @@ CAmount GetMasternodePayment(int nHeight, CAmount blockValue, bool fV20Active)
     }
 
     // Apply fixed reward from block 5400 onwards
-    if (nHeight >= 5400) {
+    if (nHeight > 5400) {
         return blockValue / 2;
     }
 
