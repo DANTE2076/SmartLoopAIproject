@@ -1149,7 +1149,7 @@ static std::pair<CAmount, CAmount> GetBlockSubsidyHelper(int nPrevBits, int nPre
         nSubsidyBase = (1111.0 / (pow((dDiff+1.0),2.0)));
         if(nSubsidyBase > 500) nSubsidyBase = 500;
         else if(nSubsidyBase < 1) nSubsidyBase = 1;
-    } else if ((nPrevHeight < 17000 || (dDiff <= 75 && nPrevHeight < 24000)) && !force_fixed_base_subsidy) {
+    } else if ((nPrevHeight < 5600 || (dDiff <= 75 && nPrevHeight < 5600)) && !force_fixed_base_subsidy) {
         // CPU mining era
         // 11111/(((x+51)/6)^2)
         nSubsidyBase = (11111.0 / (pow((dDiff+51.0)/6.0,2.0)));
@@ -1162,10 +1162,7 @@ static std::pair<CAmount, CAmount> GetBlockSubsidyHelper(int nPrevBits, int nPre
         if(nSubsidyBase > 25) nSubsidyBase = 25;
         else if(nSubsidyBase < 5) nSubsidyBase = 5;
     } else {
-        // New criteria starting from block 5400
-        // Define new criteria for block rewards starting from block 5400
-        nSubsidyBase = 220;
-        // Realizar otras operaciones necesarias para ajustar la recompensa base según sea necesario
+        nSubsidyBase = 225;
     }
 	CAmount nSubsidy = nSubsidyBase * COIN;
 
