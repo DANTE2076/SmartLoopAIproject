@@ -327,10 +327,13 @@ public:
             {
                 {0, uint256S("0x000007cf9a812b00acc3c860d504d065245794f48f2234fad9cbd615d497f314")},
              {5351, uint256S("0x00000000000ef4643e4c5675bfee76db786ba2a12fbc25f87e4279b9c1ce929c")},
-             {5505, uint256S("0x0000000000014eabe27a365491fb8d1fa362674c7558055ac445b9c5ed2b7585")}
+             {5400, uint256S("0x00000000000fb1e1986686edcdca374c57e3548f038fb90652d1408eedb8ccce")},
+             {5505, uint256S("0x0000000000014eabe27a365491fb8d1fa362674c7558055ac445b9c5ed2b7585")},
+             {6469, uint256S("0x00000000000005008221b1406095ec6c67e6b99637fda9b40a465c38d3b62af3")},
+             {7805, uint256S("0x00000000000002bff30e8f9537a6219cb86051d814cd6609c529951be9f2d285")}
             }
         };
-
+        
         m_assumeutxo_data = MapAssumeutxo{
          // TODO to be specified in a future patch.
         };
