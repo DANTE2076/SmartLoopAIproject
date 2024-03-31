@@ -586,15 +586,15 @@ static UniValue protx_register_common_wrapper(const JSONRPCRequest& request,
                                               const MnType mnType)
 {
     const bool isEvoRequested = mnType == MnType::Evo;
-    if (isEvoRequested) {
-        if (isFundRegister && (request.fHelp || (request.params.size() < 10 || request.params.size() > 12))) {
-            protx_register_fund_evo_help(request);
-        } else if (isExternalRegister && (request.fHelp || (request.params.size() < 11 || request.params.size() > 13))) {
-            protx_register_evo_help(request);
-        } else if (isPrepareRegister && (request.fHelp || (request.params.size() != 11 && request.params.size() != 12))) {
-            protx_register_prepare_evo_help(request);
-        }
-    } else {
+//    if (isEvoRequested) {
+//        if (isFundRegister && (request.fHelp || (request.params.size() < 10 || request.params.size() > 12))) {
+//            protx_register_fund_evo_help(request);
+//        } else if (isExternalRegister && (request.fHelp || (request.params.size() < 11 || request.params.size() > 13))) {
+//            protx_register_evo_help(request);
+//        } else if (isPrepareRegister && (request.fHelp || (request.params.size() != 11 && request.params.size() != 12))) {
+//            protx_register_prepare_evo_help(request);
+//        }
+//    } else {
         if (isFundRegister && (request.fHelp || (request.params.size() < 7 || request.params.size() > 9))) {
             protx_register_fund_help(request, specific_legacy_bls_scheme);
         } else if (isExternalRegister && (request.fHelp || (request.params.size() < 8 || request.params.size() > 10))) {
@@ -904,11 +904,11 @@ static UniValue protx_update_service_common_wrapper(const JSONRPCRequest& reques
     }
 
     const bool isEvoRequested = mnType == MnType::Evo;
-    if (isEvoRequested) {
-        protx_update_service_evo_help(request);
-    } else {
+//    if (isEvoRequested) {
+//        protx_update_service_evo_help(request);
+//    } else {
         protx_update_service_help(request);
-    }
+//    }
 
     std::shared_ptr<CWallet> const wallet = GetWalletForJSONRPCRequest(request);
     if (!wallet) return NullUniValue;
@@ -1620,16 +1620,16 @@ static UniValue protx(const JSONRPCRequest& request)
 #ifdef ENABLE_WALLET
     if (command == "protxregister" || command == "protxregister_fund" || command == "protxregister_prepare") {
         return protx_register(new_request, chainman);
-    } else if (command == "protxregister_evo" || command == "protxregister_fund_evo" || command == "protxregister_prepare_evo" || command == "protxregister_hpmn" || command == "protxregister_fund_hpmn" || command == "protxregister_prepare_hpmn") {
-        return protx_register_evo(new_request, chainman);
+ //   } else if (command == "protxregister_evo" || command == "protxregister_fund_evo" || command == "protxregister_prepare_evo" || command == "protxregister_hpmn" || command == "protxregister_fund_hpmn" || command == "protxregister_prepare_hpmn") {
+ //       return protx_register_evo(new_request, chainman);
     } else if (command == "protxregister_legacy" || command == "protxregister_fund_legacy" || command == "protxregister_prepare_legacy") {
         return protx_register_legacy(new_request, chainman);
     } else if (command == "protxregister_submit") {
         return protx_register_submit(new_request, chainman);
     } else if (command == "protxupdate_service") {
         return protx_update_service_common_wrapper(new_request, chainman, MnType::Regular);
-    } else if (command == "protxupdate_service_evo" || command == "protxupdate_service_hpmn") {
-        return protx_update_service_common_wrapper(new_request, chainman, MnType::Evo);
+ //   } else if (command == "protxupdate_service_evo" || command == "protxupdate_service_hpmn") {
+ //       return protx_update_service_common_wrapper(new_request, chainman, MnType::Evo);
     } else if (command == "protxupdate_registrar") {
         return protx_update_registrar(new_request, chainman);
     } else if (command == "protxupdate_registrar_legacy") {
