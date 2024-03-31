@@ -602,7 +602,7 @@ static UniValue protx_register_common_wrapper(const JSONRPCRequest& request,
         } else if (isPrepareRegister && (request.fHelp || (request.params.size() != 8 && request.params.size() != 9))) {
             protx_register_prepare_help(request, specific_legacy_bls_scheme);
         }
-    }
+//    }
 
     std::shared_ptr<CWallet> const wallet = GetWalletForJSONRPCRequest(request);
     if (!wallet) return NullUniValue;
