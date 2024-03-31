@@ -278,8 +278,8 @@ public:
         // service bits we want, but we should get them updated to support all service bits wanted by any
         // release ASAP to avoid it where possible.
         vSeeds.emplace_back("185.203.116.146",false);
-//        vSeeds.emplace_back("seed3.smartloopai.net",false);
-//        vSeeds.emplace_back("seed2.smartloopai.net",false);
+        vSeeds.emplace_back("91.92.136.129",false);
+        vSeeds.emplace_back("193.37.212.164",false);
 
         base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1,63);
         base58Prefixes[SCRIPT_ADDRESS] = std::vector<unsigned char>(1,64);
