@@ -153,10 +153,10 @@ static RPCArg GetRpcArg(const std::string& strParamName)
                 "It has to match the private key which is later used when voting on proposals.\n"
                 "If set to an empty string, the currently active voting key address is reused."}
         },
-        {"platformNodeID",
-            {"platformNodeID", RPCArg::Type::STR, RPCArg::Optional::NO,
-                "Platform P2P node ID, derived from P2P public key."}
-        },
+ //       {"platformNodeID",
+ //           {"platformNodeID", RPCArg::Type::STR, RPCArg::Optional::NO,
+ //               "Platform P2P node ID, derived from P2P public key."}
+ //       },
         {"platformP2PPort",
             {"platformP2PPort", RPCArg::Type::NUM, RPCArg::Optional::NO,
                 "TCP port of SmartLoopAI Platform peer-to-peer communication between nodes (network byte order)."}
@@ -477,105 +477,105 @@ static void protx_register_submit_help(const JSONRPCRequest& request)
     }.Check(request);
 }
 
-static void protx_register_fund_evo_help(const JSONRPCRequest& request)
-{
-    RPCHelpMan{
-        "protx register_fund_evo",
-        "\nCreates, funds and sends a ProTx to the network. The resulting transaction will move 4000 SmartLoopAI\n"
-        "to the address specified by collateralAddress and will then function as the collateral of your\n"
-        "EvoNode.\n"
-        "A few of the limitations you see in the arguments are temporary and might be lifted after DIP3\n"
-        "is fully deployed.\n" +
-            HELP_REQUIRING_PASSPHRASE,
-        {
-            GetRpcArg("collateralAddress"),
-            GetRpcArg("ipAndPort"),
-            GetRpcArg("ownerAddress"),
-            GetRpcArg("operatorPubKey_register"),
-            GetRpcArg("votingAddress_register"),
-            GetRpcArg("operatorReward"),
-            GetRpcArg("payoutAddress_register"),
-            GetRpcArg("platformNodeID"),
-            GetRpcArg("platformP2PPort"),
-            GetRpcArg("platformHTTPPort"),
-            GetRpcArg("fundAddress"),
-            GetRpcArg("submit"),
-        },
-        {
-            RPCResult{"if \"submit\" is not set or set to true",
-                      RPCResult::Type::STR_HEX, "txid", "The transaction id"},
-            RPCResult{"if \"submit\" is set to false",
-                      RPCResult::Type::STR_HEX, "hex", "The serialized signed ProTx in hex format"},
-        },
-        RPCExamples{
-            HelpExampleCli("protx", "register_fund_evo \"" + EXAMPLE_ADDRESS[0] + "\" \"1.2.3.4:1234\" \"" + EXAMPLE_ADDRESS[1] + "\" \"93746e8731c57f87f79b3620a7982924e2931717d49540a85864bd543de11c43fb868fd63e501a1db37e19ed59ae6db4\" \"" + EXAMPLE_ADDRESS[1] + "\" 0 \"" + EXAMPLE_ADDRESS[0] + "\" \"f2dbd9b0a1f541a7c44d34a58674d0262f5feca5\" 22821 22822")},
-    }.Check(request);
-}
+//static void protx_register_fund_evo_help(const JSONRPCRequest& request)
+//{
+//    RPCHelpMan{
+//        "protx register_fund_evo",
+//        "\nCreates, funds and sends a ProTx to the network. The resulting transaction will move 4000 SmartLoopAI\n"
+//        "to the address specified by collateralAddress and will then function as the collateral of your\n"
+//        "EvoNode.\n"
+//        "A few of the limitations you see in the arguments are temporary and might be lifted after DIP3\n"
+//        "is fully deployed.\n" +
+//            HELP_REQUIRING_PASSPHRASE,
+//        {
+//            GetRpcArg("collateralAddress"),
+//            GetRpcArg("ipAndPort"),
+//            GetRpcArg("ownerAddress"),
+//            GetRpcArg("operatorPubKey_register"),
+//            GetRpcArg("votingAddress_register"),
+//            GetRpcArg("operatorReward"),
+//            GetRpcArg("payoutAddress_register"),
+//            GetRpcArg("platformNodeID"),
+//            GetRpcArg("platformP2PPort"),
+//            GetRpcArg("platformHTTPPort"),
+//            GetRpcArg("fundAddress"),
+//            GetRpcArg("submit"),
+//        },
+//        {
+//            RPCResult{"if \"submit\" is not set or set to true",
+//                      RPCResult::Type::STR_HEX, "txid", "The transaction id"},
+//            RPCResult{"if \"submit\" is set to false",
+//                      RPCResult::Type::STR_HEX, "hex", "The serialized signed ProTx in hex format"},
+//        },
+//        RPCExamples{
+//            HelpExampleCli("protx", "register_fund_evo \"" + EXAMPLE_ADDRESS[0] + "\" \"1.2.3.4:1234\" \"" + EXAMPLE_ADDRESS[1] + "\" \"93746e8731c57f87f79b3620a7982924e2931717d49540a85864bd543de11c43fb868fd63e501a1db37e19ed59ae6db4\" \"" + EXAMPLE_ADDRESS[1] + "\" 0 \"" + EXAMPLE_ADDRESS[0] + "\" \"f2dbd9b0a1f541a7c44d34a58674d0262f5feca5\" 22821 22822")},
+//    }.Check(request);
+//}
 
-static void protx_register_evo_help(const JSONRPCRequest& request)
-{
-    RPCHelpMan{
-        "protx register_evo",
-        "\nSame as \"protx register_fund_evo\", but with an externally referenced collateral.\n"
-        "The collateral is specified through \"collateralHash\" and \"collateralIndex\" and must be an unspent\n"
-        "transaction output spendable by this wallet. It must also not be used by any other masternode.\n" +
-            HELP_REQUIRING_PASSPHRASE,
-        {
-            GetRpcArg("collateralHash"),
-            GetRpcArg("collateralIndex"),
-            GetRpcArg("ipAndPort"),
-            GetRpcArg("ownerAddress"),
-            GetRpcArg("operatorPubKey_register"),
-            GetRpcArg("votingAddress_register"),
-            GetRpcArg("operatorReward"),
-            GetRpcArg("payoutAddress_register"),
-            GetRpcArg("platformNodeID"),
-            GetRpcArg("platformP2PPort"),
-            GetRpcArg("platformHTTPPort"),
-            GetRpcArg("feeSourceAddress"),
-            GetRpcArg("submit"),
-        },
-        {
-            RPCResult{"if \"submit\" is not set or set to true",
-                      RPCResult::Type::STR_HEX, "txid", "The transaction id"},
-            RPCResult{"if \"submit\" is set to false",
-                      RPCResult::Type::STR_HEX, "hex", "The serialized signed ProTx in hex format"},
-        },
-        RPCExamples{
-            HelpExampleCli("protx", "register_evo \"0123456701234567012345670123456701234567012345670123456701234567\" 0 \"1.2.3.4:1234\" \"" + EXAMPLE_ADDRESS[1] + "\" \"93746e8731c57f87f79b3620a7982924e2931717d49540a85864bd543de11c43fb868fd63e501a1db37e19ed59ae6db4\" \"" + EXAMPLE_ADDRESS[1] + "\" 0 \"" + EXAMPLE_ADDRESS[0] + "\" \"f2dbd9b0a1f541a7c44d34a58674d0262f5feca5\" 22821 22822")},
-    }.Check(request);
-}
+//static void protx_register_evo_help(const JSONRPCRequest& request)
+//{
+//    RPCHelpMan{
+//        "protx register_evo",
+//        "\nSame as \"protx register_fund_evo\", but with an externally referenced collateral.\n"
+//        "The collateral is specified through \"collateralHash\" and \"collateralIndex\" and must be an unspent\n"
+//        "transaction output spendable by this wallet. It must also not be used by any other masternode.\n" +
+//            HELP_REQUIRING_PASSPHRASE,
+//        {
+//            GetRpcArg("collateralHash"),
+//            GetRpcArg("collateralIndex"),
+//            GetRpcArg("ipAndPort"),
+//            GetRpcArg("ownerAddress"),
+//            GetRpcArg("operatorPubKey_register"),
+//            GetRpcArg("votingAddress_register"),
+//            GetRpcArg("operatorReward"),
+//            GetRpcArg("payoutAddress_register"),
+//            GetRpcArg("platformNodeID"),
+//            GetRpcArg("platformP2PPort"),
+//            GetRpcArg("platformHTTPPort"),
+//            GetRpcArg("feeSourceAddress"),
+//            GetRpcArg("submit"),
+//        },
+//        {
+//            RPCResult{"if \"submit\" is not set or set to true",
+//                      RPCResult::Type::STR_HEX, "txid", "The transaction id"},
+//            RPCResult{"if \"submit\" is set to false",
+//                      RPCResult::Type::STR_HEX, "hex", "The serialized signed ProTx in hex format"},
+//        },
+//        RPCExamples{
+//            HelpExampleCli("protx", "register_evo \"0123456701234567012345670123456701234567012345670123456701234567\" 0 \"1.2.3.4:1234\" \"" + EXAMPLE_ADDRESS[1] + "\" \"93746e8731c57f87f79b3620a7982924e2931717d49540a85864bd543de11c43fb868fd63e501a1db37e19ed59ae6db4\" \"" + EXAMPLE_ADDRESS[1] + "\" 0 \"" + EXAMPLE_ADDRESS[0] + "\" \"f2dbd9b0a1f541a7c44d34a58674d0262f5feca5\" 22821 22822")},
+//    }.Check(request);
+//}
 
-static void protx_register_prepare_evo_help(const JSONRPCRequest& request)
-{
-    RPCHelpMan{
-        "protx register_prepare_evo",
-        "\nCreates an unsigned ProTx and a message that must be signed externally\n"
-        "with the private key that corresponds to collateralAddress to prove collateral ownership.\n"
-        "The prepared transaction will also contain inputs and outputs to cover fees.\n",
-        {
-            GetRpcArg("collateralHash"),
-            GetRpcArg("collateralIndex"),
-            GetRpcArg("ipAndPort"),
-            GetRpcArg("ownerAddress"),
-            GetRpcArg("operatorPubKey_register"),
-            GetRpcArg("votingAddress_register"),
-            GetRpcArg("operatorReward"),
-            GetRpcArg("payoutAddress_register"),
-            GetRpcArg("platformNodeID"),
-            GetRpcArg("platformP2PPort"),
-            GetRpcArg("platformHTTPPort"),
-            GetRpcArg("feeSourceAddress"),
-        },
-        RPCResult{
-            RPCResult::Type::OBJ, "", "", {
-                                              {RPCResult::Type::STR_HEX, "tx", "The serialized unsigned ProTx in hex format"},
-                                              {RPCResult::Type::STR_HEX, "collateralAddress", "The collateral address"},
-                                              {RPCResult::Type::STR_HEX, "signMessage", "The string message that needs to be signed with the collateral key"},
-                                          }},
-        RPCExamples{HelpExampleCli("protx", "register_prepare_evo \"0123456701234567012345670123456701234567012345670123456701234567\" 0 \"1.2.3.4:1234\" \"" + EXAMPLE_ADDRESS[1] + "\" \"93746e8731c57f87f79b3620a7982924e2931717d49540a85864bd543de11c43fb868fd63e501a1db37e19ed59ae6db4\" \"" + EXAMPLE_ADDRESS[1] + "\" 0 \"" + EXAMPLE_ADDRESS[0] + "\" \"f2dbd9b0a1f541a7c44d34a58674d0262f5feca5\" 22821 22822")},
-    }.Check(request);
-}
+//static void protx_register_prepare_evo_help(const JSONRPCRequest& request)
+//{
+//    RPCHelpMan{
+//        "protx register_prepare_evo",
+//        "\nCreates an unsigned ProTx and a message that must be signed externally\n"
+//        "with the private key that corresponds to collateralAddress to prove collateral ownership.\n"
+//        "The prepared transaction will also contain inputs and outputs to cover fees.\n",
+//        {
+//            GetRpcArg("collateralHash"),
+//            GetRpcArg("collateralIndex"),
+//            GetRpcArg("ipAndPort"),
+//            GetRpcArg("ownerAddress"),
+//            GetRpcArg("operatorPubKey_register"),
+//            GetRpcArg("votingAddress_register"),
+//            GetRpcArg("operatorReward"),
+//            GetRpcArg("payoutAddress_register"),
+//            GetRpcArg("platformNodeID"),
+//            GetRpcArg("platformP2PPort"),
+//            GetRpcArg("platformHTTPPort"),
+//            GetRpcArg("feeSourceAddress"),
+//        },
+//        RPCResult{
+//            RPCResult::Type::OBJ, "", "", {
+//                                              {RPCResult::Type::STR_HEX, "tx", "The serialized unsigned ProTx in hex format"},
+//                                              {RPCResult::Type::STR_HEX, "collateralAddress", "The collateral address"},
+//                                              {RPCResult::Type::STR_HEX, "signMessage", "The string message that needs to be signed with the collateral key"},
+//                                          }},
+//        RPCExamples{HelpExampleCli("protx", "register_prepare_evo \"0123456701234567012345670123456701234567012345670123456701234567\" 0 \"1.2.3.4:1234\" \"" + EXAMPLE_ADDRESS[1] + "\" \"93746e8731c57f87f79b3620a7982924e2931717d49540a85864bd543de11c43fb868fd63e501a1db37e19ed59ae6db4\" \"" + EXAMPLE_ADDRESS[1] + "\" 0 \"" + EXAMPLE_ADDRESS[0] + "\" \"f2dbd9b0a1f541a7c44d34a58674d0262f5feca5\" 22821 22822")},
+//    }.Check(request);
+//}
 
 static UniValue protx_register_common_wrapper(const JSONRPCRequest& request,
                                               const ChainstateManager& chainman,
@@ -785,21 +785,21 @@ static UniValue protx_register_common_wrapper(const JSONRPCRequest& request,
     }
 }
 
-static UniValue protx_register_evo(const JSONRPCRequest& request, const ChainstateManager& chainman)
-{
-    bool isExternalRegister = request.strMethod == "protxregister_evo";
-    bool isFundRegister = request.strMethod == "protxregister_fund_evo";
-    bool isPrepareRegister = request.strMethod == "protxregister_prepare_evo";
-    if (request.strMethod.find("_hpmn") != std::string::npos) {
-        if (!IsDeprecatedRPCEnabled("hpmn")) {
-            throw JSONRPCError(RPC_METHOD_DEPRECATED, "*_hpmn methods are deprecated. Use the related *_evo methods or set -deprecatedrpc=hpmn to enable them");
-        }
-        isExternalRegister = request.strMethod == "protxregister_hpmn";
-        isFundRegister = request.strMethod == "protxregister_fund_hpmn";
-        isPrepareRegister = request.strMethod == "protxregister_prepare_hpmn";
-    }
-    return protx_register_common_wrapper(request, chainman, false, isExternalRegister, isFundRegister, isPrepareRegister, MnType::Evo);
-}
+//static UniValue protx_register_evo(const JSONRPCRequest& request, const ChainstateManager& chainman)
+//{
+//    bool isExternalRegister = request.strMethod == "protxregister_evo";
+//    bool isFundRegister = request.strMethod == "protxregister_fund_evo";
+//    bool isPrepareRegister = request.strMethod == "protxregister_prepare_evo";
+//    if (request.strMethod.find("_hpmn") != std::string::npos) {
+//        if (!IsDeprecatedRPCEnabled("hpmn")) {
+//            throw JSONRPCError(RPC_METHOD_DEPRECATED, "*_hpmn methods are deprecated. Use the related *_evo methods or set -deprecatedrpc=hpmn to enable them");
+//        }
+//        isExternalRegister = request.strMethod == "protxregister_hpmn";
+//        isFundRegister = request.strMethod == "protxregister_fund_hpmn";
+//        isPrepareRegister = request.strMethod == "protxregister_prepare_hpmn";
+//    }
+//    return protx_register_common_wrapper(request, chainman, false, isExternalRegister, isFundRegister, isPrepareRegister, MnType::Evo);
+//}
 
 static UniValue protx_register(const JSONRPCRequest& request, const ChainstateManager& chainman)
 {
@@ -870,30 +870,30 @@ static void protx_update_service_help(const JSONRPCRequest& request)
     }.Check(request);
 }
 
-static void protx_update_service_evo_help(const JSONRPCRequest& request)
-{
-    RPCHelpMan{
-        "protx update_service_evo",
-        "\nCreates and sends a ProUpServTx to the network. This will update the IP address and the Platform fields\n"
-        "of an EvoNode.\n"
-        "If this is done for an EvoNode that got PoSe-banned, the ProUpServTx will also revive this EvoNode.\n" +
-            HELP_REQUIRING_PASSPHRASE,
-        {
-            GetRpcArg("proTxHash"),
-            GetRpcArg("ipAndPort_update"),
-            GetRpcArg("operatorKey"),
-            GetRpcArg("platformNodeID"),
-            GetRpcArg("platformP2PPort"),
-            GetRpcArg("platformHTTPPort"),
-            GetRpcArg("operatorPayoutAddress"),
-            GetRpcArg("feeSourceAddress"),
-        },
-        RPCResult{
-            RPCResult::Type::STR_HEX, "txid", "The transaction id"},
-        RPCExamples{
-            HelpExampleCli("protx", "update_service_evo \"0123456701234567012345670123456701234567012345670123456701234567\" \"1.2.3.4:1234\" \"5a2e15982e62f1e0b7cf9783c64cf7e3af3f90a52d6c40f6f95d624c0b1621cd\" \"f2dbd9b0a1f541a7c44d34a58674d0262f5feca5\" 22821 22822")},
-    }.Check(request);
-}
+//static void protx_update_service_evo_help(const JSONRPCRequest& request)
+//{
+//    RPCHelpMan{
+//        "protx update_service_evo",
+//        "\nCreates and sends a ProUpServTx to the network. This will update the IP address and the Platform fields\n"
+//        "of an EvoNode.\n"
+//        "If this is done for an EvoNode that got PoSe-banned, the ProUpServTx will also revive this EvoNode.\n" +
+//            HELP_REQUIRING_PASSPHRASE,
+//        {
+//            GetRpcArg("proTxHash"),
+//            GetRpcArg("ipAndPort_update"),
+//            GetRpcArg("operatorKey"),
+//            GetRpcArg("platformNodeID"),
+//            GetRpcArg("platformP2PPort"),
+//            GetRpcArg("platformHTTPPort"),
+//            GetRpcArg("operatorPayoutAddress"),
+//            GetRpcArg("feeSourceAddress"),
+//        },
+//        RPCResult{
+//            RPCResult::Type::STR_HEX, "txid", "The transaction id"},
+//        RPCExamples{
+//            HelpExampleCli("protx", "update_service_evo \"0123456701234567012345670123456701234567012345670123456701234567\" \"1.2.3.4:1234\" \"5a2e15982e62f1e0b7cf9783c64cf7e3af3f90a52d6c40f6f95d624c0b1621cd\" \"f2dbd9b0a1f541a7c44d34a58674d0262f5feca5\" 22821 22822")},
+//    }.Check(request);
+//}
 
 static UniValue protx_update_service_common_wrapper(const JSONRPCRequest& request, const ChainstateManager& chainman, const MnType mnType)
 {
