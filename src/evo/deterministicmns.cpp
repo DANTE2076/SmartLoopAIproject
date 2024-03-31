@@ -348,7 +348,7 @@ void CDeterministicMNList::PoSePunish(const uint256& proTxHash, int penalty, boo
     newState->nPoSePenalty += penalty;
     newState->nPoSePenalty = std::min(maxPenalty, newState->nPoSePenalty);
     
-    if (nHeight >= 7700  && !newState->IsBanned() && dmn->nType == MnType::Evo) {
+    if (nHeight >= 8000  && !newState->IsBanned() && dmn->nType == MnType::Evo) {
         newState->BanIfNotBanned(nHeight);
         if (debugLogs) {
             LogPrintf("CDeterministicMNList::%s -- banned Evo MN %s at height %d\n",
