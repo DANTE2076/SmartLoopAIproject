@@ -352,7 +352,7 @@ void CDeterministicMNList::PoSePunish(const uint256& proTxHash, int penalty, boo
         newState->BanIfNotBanned(nHeight);
         if (debugLogs) {
             LogPrintf("CDeterministicMNList::%s -- banned Evo MN %s at height %d\n",
-                      func, proTxHash.ToString(), nHeight);
+                      __func__, proTxHash.ToString(), nHeight);
         }
     }
 
