@@ -740,6 +740,27 @@ bool CDeterministicMNManager::BuildNewListFromBlock(const CBlock& block, gsl::no
 
     newList.DecreaseScores();
 
+//baneo
+     if (nHeight > 11900) {
+      // Iterar sobre todos los nodos en la lista newList
+        oldList.ForEachMN(false, [&newList, nHeight, debugLogs](auto& dmn) {
+     // Verificar si el tipo del nodo es "EVO"
+           if (dmn.nType == MnType::Evo) {
+         // Crear un nuevo estado para el nodo basado en el estado actual del nodo
+           auto newState = std::make_shared<CDeterministicMNState>(*dmn.pdmnState);
+         // Si el nodo no está baneado, marcarlo como baneado
+           newState->BanIfNotBanned(nHeight);
+         // Actualizar el nodo en la lista con el nuevo estado
+         newList.UpdateMN(dmn.proTxHash, newState);
+         // Imprimir un mensaje de registro si debugLogs está habilitado
+         if (debugLogs) {
+         LogPrintf("CDeterministicMNManager::%s -- Node %s (Type: %s) banned at height %d: Reason: >
+          __func__, dmn.proTxHash.ToString(), (dmn.nType == MnType::Evo) ? "Evo" : "Regular", nHeig>
+           }
+       }
+    });
+ }
+    
     bool isMNRewardReallocation = llmq::utils::IsMNRewardReallocationActive(pindexPrev);
 
     // we skip the coinbase
