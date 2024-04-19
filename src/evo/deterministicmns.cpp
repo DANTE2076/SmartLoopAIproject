@@ -754,9 +754,9 @@ bool CDeterministicMNManager::BuildNewListFromBlock(const CBlock& block, gsl::no
          newList.UpdateMN(dmn.proTxHash, newState);
          // Imprimir un mensaje de registro si debugLogs está habilitado
          if (debugLogs) {
-         LogPrintf("CDeterministicMNManager::%s -- Node %s (Type: %s) banned at height %d: Reason: >
-          __func__, dmn.proTxHash.ToString(), (dmn.nType == MnType::Evo) ? "Evo" : "Regular", nHeig>
-           }
+         LogPrintf("CDeterministicMNManager::%s -- Node %s (Type: %s) banned at height %d: Reason: %s\n",
+          __func__, dmn.proTxHash.ToString(), (dmn.nType == MnType::Evo) ? "Evo" : "Regular", nHeight, "EVO not allowed after block 11900"
+        }
        }
     });
  }
