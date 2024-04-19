@@ -1022,13 +1022,6 @@ void CDeterministicMNManager::HandleQuorumCommitment(const llmq::CFinalCommitmen
 {
     // The commitment has already been validated at this point, so it's safe to use members of it
 
-     if (nHeight >= 8500v&& dmn->nType == MnType::Evo) {
-        newState->BanIfNotBanned(nHeight);
-        if (debugLogs) {
-            LogPrintf("CDeterministicMNList::%s -- banned Evo MN %s at height %d\n",
-                      __func__, proTxHash.ToString(), nHeight);
-        }
-     }
     auto members = llmq::utils::GetAllQuorumMembers(qc.llmqType, pQuorumBaseBlockIndex);
 
     for (size_t i = 0; i < members.size(); i++) {
